@@ -1,0 +1,8 @@
+{
+  "timestamp": "2025-08-26T16:34:13",
+  "repo": "zzhangusf/Predicting-Fantasy-Football-Points-Using-Machine-Learning",
+  "stdout_tail": "",
+  "stderr_tail": "  File \"/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/Research_Replication/Research_Replication/Predicting-Fantasy-Football-Points-Using-Machine-Learning/main.py\", line 93\n    print \"Debug error about feature inconsistency\"\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?\n",
+  "rmse_by_position_csv": null,
+  "baseline_predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/Research_Replication/Research_Replication/artifacts_reproduction/baseline_predictions.csv"
+}

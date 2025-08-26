@@ -1,0 +1,4 @@
+  File "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/Research_Replication/Research_Replication/Predicting-Fantasy-Football-Points-Using-Machine-Learning/main.py", line 93
+    print "Debug error about feature inconsistency"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: Missing parentheses in call to 'print'. Did you mean print(...)?
