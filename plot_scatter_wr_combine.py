@@ -2,18 +2,20 @@
 """
 WR-only combine scatter plot: 40-yard dash (x) vs vertical jump (y).
 
-- Uses your existing pipeline:
-    - process_combine.py (build_combine_dict)
-    - utils.py (already used in your project)
-    - Combine/{year}_Combine.csv
+Enhancements:
+- Labels show "F. Lastname" (first initial + full last name).
+- Optional filtering by draft pick range via --pick-min / --pick-max.
+- Optionally include UDFAs when no pick filter is applied.
 
-- Limits to 100 WRs (even sampling to avoid selection bias).
-- Annotates each point with "Player (Pick)" if pick is available, else UDFA.
-
-Usage (from repo root):
-    plot_scatter_wr_combine.py --limit 100 --data_dir Combine --years 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025
-or simply:
+Usage examples (from repo root):
+    # Basic (limit 100 WRs, years 2016-2025)
     python plot_scatter_wr_combine.py
+
+    # Filter to top-100 picks only
+    python plot_scatter_wr_combine.py --pick-min 1 --pick-max 100
+
+    # Show UDFAs too (only relevant when no pick filter set)
+    python plot_scatter_wr_combine.py --include-udfa
 
 Output:
     combine_wr_scatter.png
@@ -23,7 +25,7 @@ from __future__ import annotations
 
 import argparse
 import math
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Optional
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -35,7 +37,7 @@ PREFERRED_POS_COLS = ["Pos", "Position"]
 PREFERRED_PICK_COLS = ["Pick", "Overall", "Draft_Pick", "DraftPick"]
 
 
-def _first_present(df: pd.DataFrame, candidates: List[str]) -> str | None:
+def _first_present(df: pd.DataFrame, candidates: List[str]) -> Optional[str]:
     for c in candidates:
         if c in df.columns:
             return c
@@ -60,6 +62,18 @@ def _prepare_master_df(d: Dict[str, pd.DataFrame]) -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True)
 
 
+def name_to_initial_last(name: str) -> str:
+    """Convert 'First Middle Last' to 'F. Last'. If only one token, return as-is."""
+    if not isinstance(name, str) or not name.strip():
+        return "Unknown"
+    tokens = name.strip().split()
+    if len(tokens) == 1:
+        return tokens[0]
+    first = tokens[0]
+    last = tokens[-1]  # Works for most cases
+    return f"{first[0]}. {last}"
+
+
 def _pick_display(val) -> str:
     if pd.isna(val):
         return "UDFA"
@@ -77,7 +91,44 @@ def _sample_even(df: pd.DataFrame, limit: int) -> pd.DataFrame:
     return df.iloc[idx]
 
 
-def main(years: Iterable[int], data_dir: str, limit: int, out_path: str = "combine_wr_scatter.png") -> None:
+def filter_by_pick_range(df: pd.DataFrame, pick_col: Optional[str],
+                         pick_min: Optional[int], pick_max: Optional[int],
+                         include_udfa: bool) -> pd.DataFrame:
+    """
+    Filter dataframe to rows whose overall pick is within [pick_min, pick_max].
+    - If neither bound is provided: return df unchanged (but can optionally include/exclude UDFAs).
+    - If any bound is provided: only numeric picks are considered; UDFAs are dropped.
+    """
+    if pick_col is None:
+        return df  # nothing we can do
+
+    # Coerce pick to numeric
+    picks = _coerce_numeric(df[pick_col])
+
+    # If no bounds given, just optionally drop UDFAs
+    if pick_min is None and pick_max is None:
+        if include_udfa:
+            return df
+        return df[~picks.isna()].copy()
+
+    mask = pd.Series(True, index=df.index)
+    if pick_min is not None:
+        mask &= (picks >= pick_min)
+    if pick_max is not None:
+        mask &= (picks <= pick_max)
+
+    mask &= ~picks.isna()
+    return df[mask].copy()
+
+
+def main(years: Iterable[int],
+         data_dir: str,
+         limit: int,
+         out_path: str = "combine_wr_scatter.png",
+         pick_min: Optional[int] = None,
+         pick_max: Optional[int] = None,
+         include_udfa: bool = False) -> None:
+
     d = build_combine_dict(years=years, data_dir=data_dir, verbose=True)
     if not d:
         raise SystemExit("No combine data found.")
@@ -97,8 +148,7 @@ def main(years: Iterable[int], data_dir: str, limit: int, out_path: str = "combi
         ("position", col_pos),
     ] if col is None]
     if missing:
-        raise SystemExit(f"Missing required columns: {', '.join(missing)}. "
-                         "Adjust PREFERRED_*_COLS lists to match your headers.")
+        raise SystemExit(f"Missing required columns: {', '.join(missing)}.")
 
     # Numeric cleaning and sanity filters
     df[col_40] = _coerce_numeric(df[col_40])
@@ -109,7 +159,13 @@ def main(years: Iterable[int], data_dir: str, limit: int, out_path: str = "combi
     # WR only
     wr = df[df[col_pos] == "WR"].copy()
     if wr.empty:
-        raise SystemExit("No WR rows found. Check your position column values.")
+        raise SystemExit("No WR rows found.")
+
+    # Apply pick filtering
+    wr = filter_by_pick_range(wr, col_pick, pick_min, pick_max, include_udfa)
+
+    if wr.empty:
+        raise SystemExit("No WR rows remain after draft pick filtering.")
 
     wr = _sample_even(wr, limit)
 
@@ -120,9 +176,9 @@ def main(years: Iterable[int], data_dir: str, limit: int, out_path: str = "combi
     plt.ylabel("Vertical jump (inches)")
     plt.title(f"Combine: 40 vs Vertical — WR (≤ {limit} players)")
 
-    # Annotate points
+    # Annotate points with "F. Last (Pick)"
     for _, row in wr.iterrows():
-        label = row.get("player", "Unknown")
+        label = name_to_initial_last(row.get("player", "Unknown"))
         if col_pick in wr.columns:
             label = f"{label} ({_pick_display(row[col_pick])})"
         plt.annotate(label, (row[col_40], row[col_vert]), xytext=(3, 2), textcoords="offset points", fontsize=8)
@@ -138,5 +194,10 @@ if __name__ == "__main__":
     ap.add_argument("--data_dir", type=str, default="Combine", help="Directory containing {year}_Combine.csv")
     ap.add_argument("--limit", type=int, default=100, help="Max number of WRs to plot")
     ap.add_argument("--years", nargs="*", type=int, default=list(range(2016, 2026)), help="Years to include")
+    ap.add_argument("--pick-min", type=int, default=None, help="Minimum overall draft pick (inclusive)")
+    ap.add_argument("--pick-max", type=int, default=None, help="Maximum overall draft pick (inclusive)")
+    ap.add_argument("--include-udfa", action="store_true",
+                    help="Include undrafted players when no pick filter is set")
     args = ap.parse_args()
-    main(years=args.years, data_dir=args.data_dir, limit=args.limit)
+    main(years=args.years, data_dir=args.data_dir, limit=args.limit,
+         pick_min=args.pick_min, pick_max=args.pick_max, include_udfa=args.include_udfa)
