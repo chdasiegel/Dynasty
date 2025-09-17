@@ -2,26 +2,26 @@
 """
 Build a dictionary {player_name: DataFrame} from Combine CSVs named {year}_Combine.csv.
 
-CSV files should live in the Combine/ folder, e.g.:
-    Combine/2016_Combine.csv
-    Combine/2017_Combine.csv
+Default CSV location (new): <project_root>/data/Combine/
+Examples:
+    data/Combine/2016_Combine.csv
+    data/Combine/2017_Combine.csv
     ...
 
 Usage:
-    from process_combine import build_combine_dict
+    from src.process_combine import build_combine_dict
 
-    d = build_combine_dict(verbose=True)
-    print(len(d))
-    print(d.get("Marvin Harrison"))
+    d = build_combine_dict(verbose=True)                       # uses data/Combine by default
+    d = build_combine_dict(data_dir="path/to/other/folder")    # override if needed
 """
 
 from __future__ import annotations
 
-import os
+from pathlib import Path
 from typing import Dict, Iterable
 
 import pandas as pd
-from utils import (
+from src.utils import (
     clean_player_name,
     height_to_inches,
     parse_drafted_column,
@@ -36,16 +36,20 @@ pd.set_option("display.max_columns", None)
 
 __all__ = ["build_combine_dict"]
 
+# Resolve project root as the parent of src/, then default to <project_root>/data/Combine
+_PROJECT_ROOT = Path(__file__).resolve().parents[1]
+_DEFAULT_DATA_DIR = _PROJECT_ROOT / "data" / "Combine"
 
-def _load_one_combine(path: str, year: int, verbose: bool) -> pd.DataFrame | None:
+
+def _load_one_combine(path: Path, year: int, verbose: bool) -> pd.DataFrame | None:
     """Read and normalize a single Combine CSV at `path` for given year."""
-    df = safe_read_csv(path, encoding="latin1", dtype=str, parse_dates=False)
+    df = safe_read_csv(str(path), encoding="latin1", dtype=str, parse_dates=False)
     if df is None:
         log(f"Error reading {path}", level="error", verbose=verbose)
         return None
 
     if "Player" not in df.columns:
-        log(f"'Player' column missing in {os.path.basename(path)}, skipping.", level="error", verbose=verbose)
+        log(f"'Player' column missing in {path.name}, skipping.", level="error", verbose=verbose)
         return None
 
     df = df.rename(columns={"Player": "player"})
@@ -73,11 +77,11 @@ def _load_one_combine(path: str, year: int, verbose: bool) -> pd.DataFrame | Non
 def build_combine_dict(
     years: Iterable[int] = range(2016, 2026),
     *,
-    data_dir: str = "Combine",   # 👈 default to Combine folder
+    data_dir: str | Path | None = None,   # 👈 defaults to data/Combine
     verbose: bool = True,
 ) -> Dict[str, pd.DataFrame]:
     """
-    Build a dictionary of player DataFrames from local Combine CSVs in `Combine/`.
+    Build a dictionary of player DataFrames from local Combine CSVs in `data/Combine/`.
 
     Processing:
       - Reads CSVs per year
@@ -89,18 +93,22 @@ def build_combine_dict(
       - Reorders 'Year' to appear after 'player'
       - Groups into {player: DataFrame}
     """
+    base_dir = Path(data_dir) if data_dir is not None else _DEFAULT_DATA_DIR
+    if verbose:
+        log(f"Reading Combine CSVs from: {base_dir}", level="info", verbose=verbose)
+
     frames: list[pd.DataFrame] = []
 
     for year in years:
-        path = os.path.join(data_dir, f"{year}_Combine.csv")
-        if not os.path.exists(path):
+        path = base_dir / f"{year}_Combine.csv"
+        if not path.exists():
             log(f"File not found: {path}", level="warn", verbose=verbose)
             continue
 
         df = _load_one_combine(path, year, verbose)
         if df is not None:
             frames.append(df)
-            log(f"Loaded {os.path.basename(path)} ({len(df)} rows)", level="success", verbose=verbose)
+            log(f"Loaded {path.name} ({len(df)} rows)", level="success", verbose=verbose)
 
     if not frames:
         log("No combine data found.", level="error", verbose=verbose)
@@ -119,5 +127,5 @@ def build_combine_dict(
 
 
 if __name__ == "__main__":
-    d = build_combine_dict(verbose=True)  # defaults to Combine folder
+    d = build_combine_dict(verbose=True)  # defaults to data/Combine
     print(f"Players: {len(d)}")

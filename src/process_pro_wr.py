@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import Dict, Iterable, List, Optional, Tuple
 import pandas as pd
 
-from utils import clean_player_name, log
+from src.utils import clean_player_name, log
 
 pd.set_option("display.max_columns", None)
 
