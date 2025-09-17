@@ -5,52 +5,10 @@
 import pandas as pd
 import os
 import re
+from utils import clean_player_name, height_to_inches
 
 pd.set_option('display.max_columns', None)
 
-# Function to clean player names
-def clean_player_name(player_name):
-    if not isinstance(player_name, str):
-        return player_name
-    player_name = re.sub(r'[^\w\s]', '', player_name)  # Remove punctuation
-    suffixes = ['Jr', 'Sr', 'II', 'III', 'IV', 'V']
-    pattern = r'\b(?:' + '|'.join(suffixes) + r')\b'
-    player_name = re.sub(pattern, '', player_name, flags=re.IGNORECASE)
-    return ' '.join(player_name.split())
-
-# Function to convert various height formats to inches
-def height_to_inches(ht):
-    if not ht or pd.isna(ht):
-        return None
-    ht = str(ht).strip()
-
-    patterns = [
-        r'^(\d+)[-/](\d+)$',
-        r'^(\d+)\s+(\d+)$',
-        r"^(\d+)'\s*(\d+)$"
-    ]
-    for pattern in patterns:
-        match = re.match(pattern, ht)
-        if match:
-            feet, inches = map(int, match.groups())
-            return feet * 12 + inches
-
-    month_to_feet = {'may': 5, 'jun': 6}
-    match = re.match(r'^(\d{1,2})[-/](May|Jun)$', ht, flags=re.IGNORECASE)
-    if match:
-        day, month = match.groups()
-        feet = month_to_feet.get(month.lower())
-        inches = int(day)
-        return feet * 12 + inches
-
-    match = re.match(r'^(May|Jun)[-/](\d{2})$', ht, flags=re.IGNORECASE)
-    if match:
-        month, day = match.groups()
-        feet = month_to_feet.get(month.lower())
-        inches = int(day)
-        return feet * 12 + inches
-
-    return None
 
 # Main function to process combine files
 def run_combine_player():
