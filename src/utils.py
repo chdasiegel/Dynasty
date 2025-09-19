@@ -12,7 +12,7 @@ def clean_player_name(player_name):
     """Remove punctuation, suffixes, and extra spaces from player names."""
     if not isinstance(player_name, str):
         return player_name
-    player_name = re.sub(r'[^\w\s]', '', player_name)  # Remove punctuation
+    player_name = re.sub(r"[^\w\s'-]", '', player_name)  # Remove punctuation
     suffixes = ['Jr', 'Sr', 'II', 'III', 'IV', 'V']
     pattern = r'\b(?:' + '|'.join(suffixes) + r')\b'
     player_name = re.sub(pattern, '', player_name, flags=re.IGNORECASE)
