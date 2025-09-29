@@ -7,7 +7,7 @@ Depends on utils.py:
 - log
 
 Usage:
-    from process_pro_qb import run_pro_qb_player
+    from drc.process.process_pro_qb import run_pro_qb_player
 
     qb_dict = run_pro_qb_player(years=range(2016, 2025), s_type="REG", verbose=False)
     print(len(qb_dict))

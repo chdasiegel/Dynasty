@@ -1,4 +1,7 @@
-# src/utils.py
+# src.utils.py
+# =====================================================
+# Central Functions Hub
+# =====================================================
 from __future__ import annotations
 import re
 from typing import Iterable, Optional, Sequence, Dict
@@ -18,8 +21,6 @@ def clean_player_name(player_name):
     player_name = re.sub(pattern, '', player_name, flags=re.IGNORECASE)
     return ' '.join(player_name.split())
 
-
-
 def strip_name_marks(s: object) -> object:
     """Strip common marks like '*' from names."""
     if not isinstance(s, str):
@@ -27,7 +28,41 @@ def strip_name_marks(s: object) -> object:
     return s.replace("*", "")
 
 
+# ---- Numeric String Conversion ----
 
+def to_num(series):
+    """Convert messy strings (%, round labels, commas) to numeric."""
+    s = series.astype(str).str.strip()
+    s = (s.str.replace('%','',regex=False)
+           .str.replace(r'(?i)round\s*','',regex=True)
+           .str.replace(r'(?i)^r\s*','',regex=True)
+           .str.replace(r'(?i)(st|nd|rd|th)$','',regex=True)
+           .str.replace(',','',regex=False)
+           .str.replace(r'[^0-9\.\-]','',regex=True))
+    return pd.to_numeric(s, errors='coerce')
+
+
+def to_num(series):
+    """Convert messy strings (%, round labels, commas) to numeric."""
+    s = series.astype(str).str.strip()
+    s = (s.str.replace('%','',regex=False)
+           .str.replace(r'(?i)round\s*','',regex=True)
+           .str.replace(r'(?i)^r\s*','',regex=True)
+           .str.replace(r'(?i)(st|nd|rd|th)$','',regex=True)
+           .str.replace(',','',regex=False)
+           .str.replace(r'[^0-9\.\-]','',regex=True))
+    return pd.to_numeric(s, errors='coerce')
+
+# ---- Find First Column ----
+
+def find_col(frame, candidates):
+    """Return the first matching column from candidates (ignores whitespace/case)."""
+    norm = {re.sub(r"\s+","",c).lower(): c for c in frame.columns}
+    for cand in candidates:
+        key = re.sub(r"\s+","",cand).lower()
+        if key in norm:
+            return norm[key]
+    return None
 
 
 # ---- Height parsing ----
@@ -52,6 +87,19 @@ def height_to_inches(ht: object) -> Optional[float]:
 
 
 
+
+# ---- #Target Position ----
+def target_position(position: str):
+    """
+    Return the target player list for the given position.
+    Example: position="WR" -> ["WR Grade", "WRGrade", "WR_Grade"]
+    """
+    pos = position.upper()
+    return [f"{pos} Grade", f"{pos}Grade", f"{pos}_Grade"]
+
+
+
+
 # ---- CSV IO ----
 def safe_read_csv(path: str, *, encoding: str = "latin1", dtype="str", parse_dates: bool = False) -> pd.DataFrame | None:
     """Read CSV with consistent defaults, returning None on failure."""
@@ -59,8 +107,6 @@ def safe_read_csv(path: str, *, encoding: str = "latin1", dtype="str", parse_dat
         return pd.read_csv(path, encoding=encoding, dtype=dtype, parse_dates=parse_dates)
     except Exception:
         return None
-
-
 
 
 
@@ -97,6 +143,9 @@ def group_to_player_dict(df: pd.DataFrame, player_col: str = "player") -> Dict[s
     """Group by player_col -> dict of player: DataFrame with index reset."""
     return {name: g.reset_index(drop=True) for name, g in df.groupby(player_col)}
 
+
+
+
 # ---- Log ----
 
 def log(message: str, level: str = "info", verbose: bool = True, stream=sys.stdout):
@@ -120,7 +169,32 @@ def log(message: str, level: str = "info", verbose: bool = True, stream=sys.stdo
     print(f"{prefix}{message}", file=stream)
 
 
+# ---- Invert Lower Better ----
 
+def invert_lower_better(X, cols=None):
+    """
+    Invert features where a lower raw value is actually better.
+    E.g., faster 40 time, earlier draft round, younger draft age.
+    """
+    if cols is None:
+        cols = ["40 Time","Draft Capital","Shuttle","Three Cone","Draft Age"]
+    X = X.copy()
+    for c in cols:
+        if c in X.columns:
+            X[c] = -X[c]
+    return X
+
+
+# ---- Base Feature Interactions ----
+from src.features_config import INTERACTIONS
+def add_interactions(X, inter_names, inter_defs=INTERACTIONS):
+    """Add interaction features (only if both parents exist)."""
+    X = X.copy()
+    for name in inter_names:
+        a,b = inter_defs[name]
+        if a in X.columns and b in X.columns:
+            X[name] = X[a] * X[b]
+    return X
 
 
 

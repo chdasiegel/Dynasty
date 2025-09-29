@@ -9,7 +9,7 @@ Examples:
     data/CFB_Data/2016_receiving.csv
 
 Usage:
-    from src.process_college import build_player_dict
+    from src.process.process_college import build_player_dict
     d = build_player_dict(verbose=True)                       # uses data/CFB_Data by default
     d = build_player_dict(data_dir="path/to/other/folder")    # override if needed
 """
@@ -33,7 +33,7 @@ pd.set_option("display.max_columns", None)
 __all__ = ["build_player_dict"]
 
 # Resolve project root as the parent of src/, then default data dir to <project_root>/data/CFB_Data
-_PROJECT_ROOT = Path(__file__).resolve().parents[1]
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_DATA_DIR = _PROJECT_ROOT / "data" / "CFB_Data"
 
 

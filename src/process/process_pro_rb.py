@@ -7,7 +7,7 @@ Depends on utils.py:
 - log
 
 Usage:
-    from process_pro_rb import run_pro_rb_player
+    from src.process.process_pro_rb import run_pro_rb_player
 
     rb_dict = run_pro_rb_player(years=range(2016, 2025), s_type="REG", verbose=False)
     print(len(rb_dict))

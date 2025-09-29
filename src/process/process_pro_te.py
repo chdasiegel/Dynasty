@@ -7,7 +7,7 @@ Depends on utils.py:
 - log
 
 Usage:
-    from process_pro_te import run_pro_te_player
+    from src.process.process_pro_te import run_pro_te_player
 
     te_dict = run_pro_te_player(years=range(2016, 2025), s_type="REG", verbose=False)
     print(len(te_dict))

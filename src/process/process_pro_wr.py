@@ -7,7 +7,7 @@ Depends on utils.py:
 - log
 
 Usage:
-    from process_pro_wr import run_pro_wr_player
+    from src.process.process_pro_wr import run_pro_wr_player
 
     wr_dict = run_pro_wr_player(years=range(2016, 2025), s_type="REG", verbose=False)
     print(len(wr_dict))

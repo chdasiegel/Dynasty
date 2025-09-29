@@ -9,7 +9,7 @@ Examples:
     ...
 
 Usage:
-    from src.process_combine import build_combine_dict
+    from src.process.process_combine import build_combine_dict
 
     d = build_combine_dict(verbose=True)                       # uses data/Combine by default
     d = build_combine_dict(data_dir="path/to/other/folder")    # override if needed
@@ -37,7 +37,7 @@ pd.set_option("display.max_columns", None)
 __all__ = ["build_combine_dict"]
 
 # Resolve project root as the parent of src/, then default to <project_root>/data/Combine
-_PROJECT_ROOT = Path(__file__).resolve().parents[1]
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_DATA_DIR = _PROJECT_ROOT / "data" / "Combine"
 
 

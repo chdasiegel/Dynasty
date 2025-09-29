@@ -6,8 +6,8 @@ Depends on:
 - requests
 - pandas
 
-Usage (as import):
-    from fantasycalc_client import (
+Usage:
+    from src.scrapers.fantasycalc_client import (
         get_player_value, search_players,
         get_rankings_df, save_current_rankings
     )

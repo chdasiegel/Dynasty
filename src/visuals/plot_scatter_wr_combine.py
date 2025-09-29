@@ -1,5 +1,8 @@
 # plot_scatter_wr_combine.py
 """
+Usage:
+from src.visuals.plot_scatter_wr_combine import main
+main(years=range(2020, 2026), limit=50, pick_min=1, pick_max=32)
 WR-only combine scatter plot: 40-yard dash (x) vs vertical jump (y).
 
 - Labels: "F. Last (Pick)" placed exactly at the data point (no nudging).
