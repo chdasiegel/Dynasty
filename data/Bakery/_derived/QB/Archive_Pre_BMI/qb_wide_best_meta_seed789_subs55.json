@@ -1,0 +1,32 @@
+{
+  "position": "QB",
+  "seed": 789,
+  "n_subsets": 55,
+  "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_wide_leaderboard_seed789_subs55.csv",
+  "best_predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_wide_best_preds_seed789_subs55.csv",
+  "best_bases": [
+    "Comp%",
+    "Draft Age",
+    "YCO/A",
+    "DAA",
+    "ADJ%",
+    "Draft Capital",
+    "YPA",
+    "Height",
+    "TWP%",
+    "Weight",
+    "40 Time",
+    "DOM+",
+    "BTT%",
+    "Breakout Age",
+    "YPC",
+    "Conference Rank"
+  ],
+  "best_interactions": [],
+  "best_model_tag": "GB",
+  "best_cvR2": 0.889291838643682,
+  "best_test_R2": 0.9407469238699787,
+  "best_test_MAE": 0.639941260361217,
+  "best_test_RMSE": 0.8005523210161071,
+  "max_pred_test": 12.196404152629539
+}

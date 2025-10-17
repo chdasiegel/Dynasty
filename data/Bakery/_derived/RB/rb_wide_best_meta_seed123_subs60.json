@@ -1,0 +1,25 @@
+{
+  "position": "RB",
+  "seed": 123,
+  "n_subsets": 60,
+  "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_wide_leaderboard_seed123_subs60.csv",
+  "best_predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_wide_best_preds_seed123_subs60.csv",
+  "best_bases": [
+    "BMI",
+    "YPR",
+    "YCO/A",
+    "Conference Rank",
+    "40 Time",
+    "DOM+",
+    "Draft Capital",
+    "YPC",
+    "MTF/A"
+  ],
+  "best_interactions": [],
+  "best_model_tag": "GB",
+  "best_cvR2": 0.8097372160942877,
+  "best_test_R2": 0.8621841550416685,
+  "best_test_MAE": 0.7723033200952363,
+  "best_test_RMSE": 0.9436834688284458,
+  "max_pred_test": 12.488522501603125
+}

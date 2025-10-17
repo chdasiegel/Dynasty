@@ -1,0 +1,27 @@
+{
+  "position": "TE",
+  "seed": 789,
+  "n_subsets": 45,
+  "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/TE/te_wide_leaderboard_seed789_subs45.csv",
+  "best_predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/TE/te_wide_best_preds_seed789_subs45.csv",
+  "best_bases": [
+    "Draft Age",
+    "40 Time",
+    "Drop Rate",
+    "aDOT",
+    "EPA/P",
+    "YAC/R",
+    "DOM+",
+    "Y/RR",
+    "aYPTPA",
+    "CC%",
+    "Breakout Age"
+  ],
+  "best_interactions": [],
+  "best_model_tag": "GB",
+  "best_cvR2": 0.6911042242223115,
+  "best_test_R2": 0.7672596138904989,
+  "best_test_MAE": 1.372944918857821,
+  "best_test_RMSE": 1.5530317537560212,
+  "max_pred_test": 12.653765888038636
+}

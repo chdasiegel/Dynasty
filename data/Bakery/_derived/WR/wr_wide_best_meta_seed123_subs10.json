@@ -1,0 +1,33 @@
+{
+  "position": "WR",
+  "seed": 123,
+  "n_subsets": 10,
+  "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/WR/wr_wide_leaderboard_seed123_subs10.csv",
+  "best_predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/WR/wr_wide_best_preds_seed123_subs10.csv",
+  "feature_importance_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/WR/wr_feature_importance_seed123_subs10.csv",
+  "shap_csv": null,
+  "best_bases": [
+    "Y/RR",
+    "YAC/R",
+    "aDOT",
+    "EPA/P",
+    "aYPTPA",
+    "CTPRR",
+    "UCTPRR",
+    "Draft Capital",
+    "CC%",
+    "Breakout Age"
+  ],
+  "best_interactions": [
+    "SpeedxBMI",
+    "Wide%xSlot%"
+  ],
+  "best_model_tag": "GB",
+  "best_cvR2": 0.8037109769680036,
+  "best_test_R2": 0.8614096313168811,
+  "best_test_MAE": 0.6416309601525391,
+  "best_test_RMSE": 0.7938614732283472,
+  "max_pred_test": 12.196281709138937,
+  "interaction_hierarchy": "none",
+  "drop_parents_when_none": true
+}

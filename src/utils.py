@@ -41,18 +41,6 @@ def to_num(series):
            .str.replace(r'[^0-9\.\-]','',regex=True))
     return pd.to_numeric(s, errors='coerce')
 
-
-def to_num(series):
-    """Convert messy strings (%, round labels, commas) to numeric."""
-    s = series.astype(str).str.strip()
-    s = (s.str.replace('%','',regex=False)
-           .str.replace(r'(?i)round\s*','',regex=True)
-           .str.replace(r'(?i)^r\s*','',regex=True)
-           .str.replace(r'(?i)(st|nd|rd|th)$','',regex=True)
-           .str.replace(',','',regex=False)
-           .str.replace(r'[^0-9\.\-]','',regex=True))
-    return pd.to_numeric(s, errors='coerce')
-
 # ---- Find First Column ----
 
 def find_col(frame, candidates):

@@ -1,0 +1,30 @@
+{
+  "position": "RB",
+  "seed": 65,
+  "n_subsets": 60,
+  "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_wide_leaderboard_seed65_subs60.csv",
+  "best_predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_wide_best_preds_seed65_subs60.csv",
+  "best_bases": [
+    "40 Time",
+    "Weight",
+    "Draft Age",
+    "BMI",
+    "DOM+",
+    "YPC",
+    "YCO/A",
+    "Break%",
+    "ELU",
+    "Conference Rank",
+    "YPR",
+    "Draft Capital",
+    "Height",
+    "MTF/A"
+  ],
+  "best_interactions": [],
+  "best_model_tag": "GB",
+  "best_cvR2": 0.8441671982438154,
+  "best_test_R2": 0.9186992846390798,
+  "best_test_MAE": 0.6259270973944578,
+  "best_test_RMSE": 0.7845057637640499,
+  "max_pred_test": 14.162649238647402
+}

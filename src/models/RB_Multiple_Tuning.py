@@ -4,7 +4,6 @@
 # - Randomly sample feature combos (+ limited interactions)
 # - Tune multiple models (GB, RF, ET, HGB) with RandomizedSearchCV
 # - 80/20 train-test; CV on TRAIN only; metrics on TEST
-# - Predictions clipped to [0, 15]
 # - Logs leaderboard + meta for reproducibility
 # ===============================================================
 import re, json, numpy as np, pandas as pd
@@ -23,40 +22,63 @@ CSV_PATH            = Path("./data/Bakery/RB/Bakery_RB_Overall.csv")
 OUT_DIR             = Path("./data/Bakery/_derived")
 TEST_SIZE           = 0.20
 
-SEEDS               = [456, 123, 789] # run search for multiple seeds
+SEEDS               = [123, 456, 789] # run search for multiple seeds
 N_SUBSETS           = 60              # random feature subsets per seed
 MAX_BASE_FEATS      = 8               # cap base features per subset
 MAX_INTERACTIONS    = 3               # cap interactions per subset
 N_ITER_PER_MODEL    = 25              # RandomizedSearchCV iterations per model
 CV_FOLDS            = 5
 
-CLIP_MIN, CLIP_MAX  = 0.0, 15.0       # clip predictions
+#CLIP_MIN, CLIP_MAX  = 0.0, 15.0       # clip predictions
 
 # ---------------- Feature space ----------------
 BASE_FEATURES = [
-    "DOM++","40 Time","BMI","YPC","ELU","YCO/A","Break%","Draft Capital","Bama","Draft Age"
+    "DOM+","40 Time","BMI","Height","Weight","MTF/A","YPC","YPR","ELU","YCO/A","Break%","Draft Capital","Conference Rank","Draft Age","Breakout Age","Y/RR","YAC/R","aDOT","EPA/P","aYPTPA","CTPRR","UCTPRR","Drop Rate","CC%","Wide%","Slot%","Comp%","ADJ%","BTT%","TWP%","DAA",
 ]
 
 INTERACTIONS = {
-    "DOMxDraft": ("DOM++", "Draft Capital"),
-    "YPCxELU":   ("YPC",   "ELU"),
-    "ELUxYCOA":  ("ELU",   "YCO/A"),
+    "DOMxDraft":      ("DOM+","Draft Capital"),
+    "YPCxELU":        ("YPC","ELU"),
+    "ELUxYCOA":       ("ELU","YCO/A"),
+    "SpeedxHeight":   ("Speed","Height")
+    "Wide%xSlot%":    ("Wide%","Slot%")  
 }
 
 ALIASES = {
-    "DOM++":         ["DOM++","DOMpp","DOM_plus_plus","DOMpp_Weighted","DOM"],
-    "40 Time":       ["40 Time","Forty","40"],
-    "BMI":           ["BMI"],
-    "YPC":           ["YPC","Yards per Carry","Yards/Carry","Rushing YPC"],
-    "ELU":           ["ELU","Elusiveness","Elusiveness Rating"],
-    "YCO/A":         ["YCO/A","YAC/A","Yards After Contact / Att","Yards After Contact per Attempt"],
-    "Break%":        ["Break%","Break %","Breakaway %","Breakaway Percentage","Breakaway%"],
-    "Draft Capital": ["Draft Capital","Draft Cap","Draft Round","Round","Rnd"],
-    "Bama":          ["Bama","Bama Rating","BamaAdj","BAMA"],
-    "Shuttle":       ["Shuttle","Short Shuttle","20 Shuttle","20 Yard Shuttle"],
-    "Three Cone":    ["3 Cone","Three Cone","3-Cone"],
-    "Rec Yards":     ["Receiving Yards","Rec Yds","RecYds"],
-    "Draft Age":     ["Draft Age","Age at Draft","DraftAge","Age (Draft)","AgeDraft","Age_at_Draft"],
+    "DOM+":             ["DOM+","DOMp","DOM_plus","DOMp_Weighted","DOM"],
+    "Speed":            ["40 Time","Forty","40","Speed"],
+    "BMI":              ["BMI","Body Mass Index"],
+    "MTF/A":            ["Missed Tackles Forced Per Attempt","MTFA","MTF/A"],
+    "YPC":              ["YPC","Yards per Carry","Yards/Carry","Rushing YPC"],
+    "YPR":              ["YPR","Yards Per Reception"],
+    "ELU":              ["ELU","Elusiveness","Elusiveness Rating"],
+    "YCO/A":            ["YCO/A","YAC/A","Yards After Contact / Att","Yards After Contact per Attempt"],
+    "Break%":           ["Break%","Break %","Breakaway %","Breakaway Percentage","Breakaway%"],
+    "Draft Capital":    ["Draft Capital","Draft Cap","Draft Round","Round","Rnd"],
+    "Conference Rank":  ["ConRK","Conference Rank","Conf Rk"],
+    "Shuttle":          ["Shuttle","Short Shuttle","20 Shuttle","20 Yard Shuttle"],
+    "Three Cone":       ["3 Cone","Three Cone","3-Cone"],
+    "Rec Yards":        ["Receiving Yards","Rec Yds","RecYds"],
+    "Draft Age":        ["Draft Age","Age at Draft","DraftAge","Age (Draft)","AgeDraft","Age_at_Draft"],
+    "Breakout Age":     ["Breakout","Breakout Age","Age of Breakout","BOUT"],
+    "Y/RR":             ["Yards Route Run","Yards per Route Run","Y/RR"],
+    "YAC/R":            ["Yards After Catch Per Reception","YAC/R"],
+    "aDOT":             ["Average Depth of Target","aDOT","ADOT","adot"],
+    "EPA/P":            ["Expected Points Added per Play","EPA/P"],
+    "aYPTPA":           ["Adjusted Yards per Team Pass Attempt","aYPTPA","AYPTA","aypta"],
+    "CTPRR":            ["Targets Per Route Run","Contested Targets Per Route Run","CTPRR"],
+    "UCTPRR":           ["Uncontested Targets Per Route Run","UCTPRR"],
+    "Drop Rate":        ["Drop %","Drop%","DropRate","Drop Rate"],
+    "CC%":              ["Contested Catch Percent","CC","CC %"],
+    "Wide%":            ["X/Z%","X","Z","Wide","Wide %","Wide%"],
+    "Slot%":            ["Slot","Slot %","Slot%"],
+    "Comp%":            ["Completion Percentage","Comp","COMP","Comp%"],
+    "ADJ%":             ["Adjusted Completed Percentage","ADJ","ADJ%","ADJ %"],
+    "BTT%":             ["Big Time Throw Percentage","BTT","BTT %","BTT%"],
+    "TWP%":             ["Turnover Worthy Play Percentage","TWP","TWP %","TWP%"],
+    "DAA":              ["Depth-Adjusted Accuracy","Depth Adjusted Accuracy","DAA"],
+    "YPA":              ["Yards Per Attempt","YpA","YPA"]
+    
 }
 TARGET_CANDS = ["RB Grade","RBGrade","RB_Grade"]
 NAME_CANDS   = ["Player","Player Name","Name"]
