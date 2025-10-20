@@ -1,0 +1,8 @@
+feature,tree_feature_importance,kind
+ELU,0.1418188166338465,base
+DOM+,0.10300147404281965,base
+Draft Capital,0.1,base
+RDOM+,0.07254797664025568,base
+YCO/A,0.04504906699663166,base
+YPC,0.028227028813941093,base
+SpeedxBMI,0.024901131776442983,interaction

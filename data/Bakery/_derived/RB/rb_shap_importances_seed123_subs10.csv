@@ -1,0 +1,9 @@
+feature,mean_abs_shap,kind
+MTF/A,0.4654267914067937,base
+DOM+,0.44843212429480667,base
+RDOM+,0.3882458344333733,base
+YCO/A,0.3058300090280467,base
+YPC,0.19319557211479668,base
+Draft Capital,0.1,base
+Breakout Age,0.1,base
+SpeedxBMI,0.0984484557477552,interaction

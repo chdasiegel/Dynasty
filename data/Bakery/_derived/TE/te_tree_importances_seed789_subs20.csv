@@ -1,0 +1,11 @@
+feature,tree_feature_importance,kind
+DOM+,0.2772269830298256,base
+Y/RR,0.2505605565044959,base
+SpeedxBMI,0.10158208827921811,interaction
+Breakout Age,0.1,base
+YAC/R,0.09344102720138693,base
+Drop Rate,0.062344351530475975,base
+aDOT,0.06007871034166015,base
+CC%,0.00593124550181405,base
+EPA/P,0.0,base
+aYPTPA,0.0,base
