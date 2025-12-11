@@ -1,0 +1,139 @@
+{
+  "position": "WR",
+  "seed": 56,
+  "n_subsets": 40,
+  "max_base_feats": 15,
+  "n_iter_per_model": 15,
+  "best_model_tag": "GB",
+  "best_hyperparams": {
+    "subsample": 1.0,
+    "n_estimators": 200,
+    "min_samples_leaf": 1,
+    "max_depth": 2,
+    "learning_rate": 0.1
+  },
+  "performance": {
+    "test_r2": 0.7517655142030572,
+    "test_mae": 56.111685895773995,
+    "test_rmse": 74.51749625144821,
+    "cv_r2_mean": 0.6650784006058408,
+    "max_prediction_raw": 7.6912215014141045,
+    "min_prediction_raw": -505.95866580780887
+  },
+  "features": {
+    "n_features": 9,
+    "feature_names": [
+      "DOM+",
+      "Draft Capital",
+      "aDOT",
+      "YAC/R",
+      "FUM",
+      "Breakout Age",
+      "REC%",
+      "Y/REC",
+      "SpeedxBMI"
+    ],
+    "feature_kinds": {
+      "DOM+": "base",
+      "Draft Capital": "base",
+      "aDOT": "base",
+      "YAC/R": "base",
+      "FUM": "base",
+      "Breakout Age": "base",
+      "REC%": "base",
+      "Y/REC": "base",
+      "SpeedxBMI": "interaction"
+    },
+    "best_bases": [
+      "DOM+",
+      "Draft Capital",
+      "aDOT",
+      "YAC/R",
+      "FUM",
+      "Breakout Age",
+      "REC%",
+      "Y/REC"
+    ],
+    "best_interactions": [
+      "SpeedxBMI"
+    ]
+  },
+  "shap_analysis": {
+    "feature_importances": {
+      "DOM+": 31.657445328980696,
+      "Draft Capital": 80.35682533291957,
+      "aDOT": 6.90595722560937,
+      "YAC/R": 12.18518116146831,
+      "FUM": 0.7403674304389218,
+      "Breakout Age": 17.022412136156394,
+      "REC%": 11.468957257289382,
+      "Y/REC": 6.7442512287117085,
+      "SpeedxBMI": 11.826809499956353
+    },
+    "base_features_importance": {
+      "DOM+": 31.657445328980696,
+      "Draft Capital": 80.35682533291957,
+      "aDOT": 6.90595722560937,
+      "YAC/R": 12.18518116146831,
+      "FUM": 0.7403674304389218,
+      "Breakout Age": 17.022412136156394,
+      "REC%": 11.468957257289382,
+      "Y/REC": 6.7442512287117085
+    },
+    "interaction_features_importance": {
+      "SpeedxBMI": 11.826809499956353
+    },
+    "top_5_features": [
+      [
+        "Draft Capital",
+        80.35682533291957
+      ],
+      [
+        "DOM+",
+        31.657445328980696
+      ],
+      [
+        "Breakout Age",
+        17.022412136156394
+      ],
+      [
+        "YAC/R",
+        12.18518116146831
+      ],
+      [
+        "SpeedxBMI",
+        11.826809499956353
+      ]
+    ],
+    "base_importance_sum": 167.08139710157434,
+    "interaction_importance_sum": 11.826809499956353,
+    "shap_base_value": -213.0754716981133
+  },
+  "data_info": {
+    "train_samples": 265,
+    "test_samples": 67,
+    "cv_folds_used": 15,
+    "total_samples": 332
+  },
+  "training_config": {
+    "max_base_feats": 15,
+    "max_interactions": 3,
+    "n_iter_per_model": 15,
+    "test_size": 0.2,
+    "interaction_hierarchy": "none",
+    "draft_cap_cap": 0.1,
+    "shap_enabled": true
+  },
+  "file_paths": {
+    "model_pickle": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_model_seed56_subs40_base15_iter15.pkl",
+    "predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_wide_best_preds_seed56_subs40_base15_iter15.csv",
+    "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_wide_leaderboard_seed56_subs40_base15_iter15.csv",
+    "shap_contribs_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_shap_contribs_seed56_subs40_base15_iter15.csv",
+    "tree_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_tree_importances_seed56_subs40.csv",
+    "tree_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_tree_importances_split_seed56_subs40.csv",
+    "shap_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_shap_importances_seed56_subs40.csv",
+    "shap_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/WR/wr_shap_importances_split_seed56_subs40.csv"
+  },
+  "timestamp": "2025-12-11T16:04:31.230194",
+  "runtime_sec": 439.61880779173225
+}

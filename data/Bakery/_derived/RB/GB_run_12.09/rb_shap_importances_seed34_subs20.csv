@@ -1,0 +1,8 @@
+feature,shap_mean_abs,kind
+YCO/A,11.050166213429078,base
+MTF,11.005595333771554,base
+SpeedxBMI,6.808392349729382,interaction
+ELU,5.689645326534231,base
+RDOM+,5.5579313762238,base
+DOM+,5.536912402174221,base
+Draft Capital,0.1,base

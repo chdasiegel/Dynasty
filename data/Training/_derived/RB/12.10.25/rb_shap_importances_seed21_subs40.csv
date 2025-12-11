@@ -1,0 +1,11 @@
+feature,shap_mean_abs,kind
+MTF,15.902244253329357,base
+ELU,9.774227294960916,base
+DOM+,7.235774491152947,base
+RDOM+,7.132714014031897,base
+Break%,7.091969835200202,base
+SpeedxBMI,6.826178898757763,interaction
+10+,3.793466575413053,base
+Y/RR,2.519994247890932,base
+Draft Capital,0.1,base
+Breakout Age,0.1,base

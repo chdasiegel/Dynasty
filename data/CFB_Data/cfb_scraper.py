@@ -7,7 +7,7 @@ import pandas as pd
 import time
 
 def run_cfb_scraper():
-    years = list(range(2016, 2025))  # change end bound to upcoming season
+    years = list(range(2000, 2015))  # change end bound to upcoming season
     stats = ["passing", "rushing", "receiving"]
 
     for year in years:

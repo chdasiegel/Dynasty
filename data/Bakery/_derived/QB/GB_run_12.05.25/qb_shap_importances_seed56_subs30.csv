@@ -1,0 +1,6 @@
+feature,shap_mean_abs,kind
+RDOM+,9.57489587624535,base
+PDOM+,7.600359360171539,base
+ELU,4.044995337977026,base
+SpeedxBMI,2.7714883558035415,interaction
+Draft Capital,0.3,base

@@ -1,0 +1,8 @@
+feature,shap_mean_abs,kind
+Y/RR,28.752141335052052,base
+DOM+,21.3692009284462,base
+SpeedxBMI,8.291003215565532,interaction
+YAC/R,4.208648452259319,base
+ELU,2.0354455327068903,base
+Draft Capital,0.1,base
+Breakout Age,0.1,base

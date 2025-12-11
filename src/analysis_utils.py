@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import warnings
 
-from sklearn.ensemble import GradientBoostingRegressor, HistGradientBoostingRegressor, RandomForestRegressor
-from sklearn.linear_model import Ridge, BayesianRidge
-from sklearn.inspection import permutation_importance
+# scikit-learn imports are done lazily inside the functions that need them
+# to avoid import-time errors when sklearn is not available or when static
+# analyzers cannot resolve sklearn sources.
 
 
 # ---- Model Spaces ----
@@ -20,6 +20,21 @@ def model_spaces(random_state: int):
     - HGB: uses 'max_iter' instead of 'n_estimators'.
     - Ridge/BayesianRidge don't expose feature_importances_; SHAP/perm importance still ok.
     """
+    try:
+        from importlib import import_module
+        ensemble = import_module("sklearn.ensemble")
+        linear = import_module("sklearn.linear_model")
+        GradientBoostingRegressor = getattr(ensemble, "GradientBoostingRegressor")
+        HistGradientBoostingRegressor = getattr(ensemble, "HistGradientBoostingRegressor")
+        RandomForestRegressor = getattr(ensemble, "RandomForestRegressor")
+        Ridge = getattr(linear, "Ridge")
+        BayesianRidge = getattr(linear, "BayesianRidge")
+    except Exception as e:
+        raise ImportError(
+            "scikit-learn is required to construct model spaces; please install it "
+            "(e.g. `pip install scikit-learn`)."
+        ) from e
+
     return [
         # Gradient Boosting (trees)
         ("GB", GradientBoostingRegressor(random_state=random_state), {
@@ -98,8 +113,9 @@ def save_pareto_chart(summary: pd.DataFrame, position: str, out_dir: Path) -> Pa
 def compute_shap(best_est, Xtr_arr, Xte_arr):
     """Return (sv, base_value) if SHAP works; else (None, 0.s0)."""
     try:
-        import shap
-    except ImportError:
+        from importlib import import_module
+        shap = import_module("shap")
+    except Exception:
         return None, 0.0
     try:
         explainer = shap.TreeExplainer(best_est)
@@ -166,10 +182,11 @@ def save_importances(
         paths["tree_importances_csv"] = str(p1); paths["tree_importances_split_csv"] = str(p1s)
 
     # SHAP mean |v|
-    if shap_values is not None and np.size(shap_values):
-        mean_abs = np.abs(shap_values).mean(axis=0)
-        shap_ser = pd.Series(mean_abs, index=feature_names, name="mean_abs_shap")
-        per_df, split_df = to_df_with_kind(shap_ser, "mean_abs_shap")
+    if shap_values is not None:
+        # Compute mean absolute SHAP values across all test samples
+        shap_mean_abs = np.mean(np.abs(shap_values), axis=0)
+        shap_ser = pd.Series(shap_mean_abs, index=feature_names, name="shap_mean_abs")
+        per_df, split_df = to_df_with_kind(shap_ser, "shap_mean_abs")
         p2 = out_dir / f"{pos.lower()}_shap_importances_seed{seed}_subs{n_subsets}.csv"
         p2s = out_dir / f"{pos.lower()}_shap_importances_split_seed{seed}_subs{n_subsets}.csv"
         per_df.to_csv(p2, index=False); split_df.to_csv(p2s, index=False)
@@ -177,12 +194,19 @@ def save_importances(
 
     # Permutation
     if do_permutation and X_te_arr is not None and y_te is not None:
-        r = permutation_importance(model, X_te_arr, y_te, scoring="r2", n_repeats=10, random_state=0, n_jobs=-1)
-        perm_ser = pd.Series(r.importances_mean, index=feature_names, name="perm_importance_mean")
-        per_df, split_df = to_df_with_kind(perm_ser, "perm_importance_mean")
-        p3 = out_dir / f"{pos.lower()}_perm_importances_seed{seed}_subs{n_subsets}.csv"
-        p3s = out_dir / f"{pos.lower()}_perm_importances_split_seed{seed}_subs{n_subsets}.csv"
-        per_df.to_csv(p3, index=False); split_df.to_csv(p3s, index=False)
-        paths["permutation_importances_csv"] = str(p3); paths["permutation_importances_split_csv"] = str(p3s)
+        try:
+            from importlib import import_module
+            inspection = import_module("sklearn.inspection")
+            permutation_importance = getattr(inspection, "permutation_importance")
+        except Exception as e:
+            warnings.warn(f"scikit-learn permutation_importance not available: {e}")
+        else:
+            r = permutation_importance(model, X_te_arr, y_te, scoring="r2", n_repeats=10, random_state=0, n_jobs=-1)
+            perm_ser = pd.Series(r.importances_mean, index=feature_names, name="perm_importance_mean")
+            per_df, split_df = to_df_with_kind(perm_ser, "perm_importance_mean")
+            p3 = out_dir / f"{pos.lower()}_perm_importances_seed{seed}_subs{n_subsets}.csv"
+            p3s = out_dir / f"{pos.lower()}_perm_importances_split_seed{seed}_subs{n_subsets}.csv"
+            per_df.to_csv(p3, index=False); split_df.to_csv(p3s, index=False)
+            paths["permutation_importances_csv"] = str(p3); paths["permutation_importances_split_csv"] = str(p3s)
 
     return paths

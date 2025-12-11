@@ -1,0 +1,8 @@
+feature,tree_feature_importance,kind
+Y/RR,0.1242935215327359,base
+DOM+,0.11146311300705927,base
+Draft Capital,0.1,base
+Breakout Age,0.059944084403008135,base
+SpeedxBMI,0.05920152915309842,interaction
+YAC/R,0.029673778403983535,base
+ELU,0.008740743551674394,base

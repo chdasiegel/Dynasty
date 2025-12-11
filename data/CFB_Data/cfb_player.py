@@ -20,7 +20,7 @@ def clean_player_name(player_name):
 
 # Main function to run data cleaning and dictionary creation
 def run_cfb_player():
-    years = list(range(2016, 2025))
+    years = list(range(2000, 2015))
     stats = ["passing", "rushing", "receiving"]
     all_records = []
 

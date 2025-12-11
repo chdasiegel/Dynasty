@@ -1,0 +1,159 @@
+{
+  "position": "QB",
+  "seed": 56,
+  "n_subsets": 30,
+  "max_base_feats": 15,
+  "n_iter_per_model": 100,
+  "best_model_tag": "GB",
+  "best_hyperparams": {
+    "subsample": 1.0,
+    "n_estimators": 400,
+    "min_samples_leaf": 3,
+    "max_depth": 2,
+    "learning_rate": 0.05
+  },
+  "performance": {
+    "test_r2": 0.8476090289522974,
+    "test_mae": 14.462733702218715,
+    "test_rmse": 18.513123994921582,
+    "cv_r2_mean": 0.7229263239674053,
+    "max_prediction_raw": -4.52725084776183,
+    "min_prediction_raw": -171.65514888259776
+  },
+  "features": {
+    "n_features": 13,
+    "feature_names": [
+      "PDOM+",
+      "RDOM+",
+      "Draft Capital",
+      "Comp%",
+      "PYPA",
+      "ADJ%",
+      "TWP%",
+      "10+",
+      "YCO/A",
+      "Breakout Age",
+      "Y/REC",
+      "YAC/R",
+      "SpeedxBMI"
+    ],
+    "feature_kinds": {
+      "PDOM+": "base",
+      "RDOM+": "base",
+      "Draft Capital": "base",
+      "Comp%": "base",
+      "PYPA": "base",
+      "ADJ%": "base",
+      "TWP%": "base",
+      "10+": "base",
+      "YCO/A": "base",
+      "Breakout Age": "base",
+      "Y/REC": "base",
+      "YAC/R": "base",
+      "SpeedxBMI": "interaction"
+    },
+    "best_bases": [
+      "PDOM+",
+      "RDOM+",
+      "Draft Capital",
+      "Comp%",
+      "PYPA",
+      "ADJ%",
+      "TWP%",
+      "10+",
+      "YCO/A",
+      "Breakout Age",
+      "Y/REC",
+      "YAC/R"
+    ],
+    "best_interactions": [
+      "SpeedxBMI"
+    ]
+  },
+  "shap_analysis": {
+    "feature_importances": {
+      "PDOM+": 1.6930408582467884,
+      "RDOM+": 0.9209956112761605,
+      "Draft Capital": 29.386431615777465,
+      "Comp%": 6.0885572577612495,
+      "PYPA": 5.870331604126736,
+      "ADJ%": 1.4618447766808984,
+      "TWP%": 0.774428721734438,
+      "10+": 3.6606616804207666,
+      "YCO/A": 4.417974642724243,
+      "Breakout Age": 8.441364296112168,
+      "Y/REC": 0.5445153523273757,
+      "YAC/R": 0.5028079323696643,
+      "SpeedxBMI": 1.2983680885111302
+    },
+    "base_features_importance": {
+      "PDOM+": 1.6930408582467884,
+      "RDOM+": 0.9209956112761605,
+      "Draft Capital": 29.386431615777465,
+      "Comp%": 6.0885572577612495,
+      "PYPA": 5.870331604126736,
+      "ADJ%": 1.4618447766808984,
+      "TWP%": 0.774428721734438,
+      "10+": 3.6606616804207666,
+      "YCO/A": 4.417974642724243,
+      "Breakout Age": 8.441364296112168,
+      "Y/REC": 0.5445153523273757,
+      "YAC/R": 0.5028079323696643
+    },
+    "interaction_features_importance": {
+      "SpeedxBMI": 1.2983680885111302
+    },
+    "top_5_features": [
+      [
+        "Draft Capital",
+        29.386431615777465
+      ],
+      [
+        "Breakout Age",
+        8.441364296112168
+      ],
+      [
+        "Comp%",
+        6.0885572577612495
+      ],
+      [
+        "PYPA",
+        5.870331604126736
+      ],
+      [
+        "YCO/A",
+        4.417974642724243
+      ]
+    ],
+    "base_importance_sum": 63.76295434955795,
+    "interaction_importance_sum": 1.2983680885111302,
+    "shap_base_value": -80.36170212765961
+  },
+  "data_info": {
+    "train_samples": 94,
+    "test_samples": 24,
+    "cv_folds_used": 15,
+    "total_samples": 118
+  },
+  "training_config": {
+    "max_base_feats": 15,
+    "max_interactions": 3,
+    "n_iter_per_model": 100,
+    "test_size": 0.2,
+    "interaction_hierarchy": "none",
+    "draft_cap_cap": 0.3,
+    "shap_enabled": true
+  },
+  "file_paths": {
+    "model_pickle": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_model_seed56_subs30_base15_iter100.pkl",
+    "predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_wide_best_preds_seed56_subs30_base15_iter100.csv",
+    "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_wide_leaderboard_seed56_subs30_base15_iter100.csv",
+    "shap_contribs_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_shap_contribs_seed56_subs30_base15_iter100.csv",
+    "tree_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_tree_importances_seed56_subs30.csv",
+    "tree_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_tree_importances_split_seed56_subs30.csv",
+    "shap_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_shap_importances_seed56_subs30.csv",
+    "shap_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/QB/qb_shap_importances_split_seed56_subs30.csv"
+  },
+  "timestamp": "2025-12-07T20:56:50.763481",
+  "runtime_sec": 1137.3314153747633
+}

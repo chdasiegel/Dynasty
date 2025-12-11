@@ -15,10 +15,11 @@ from sklearn.metrics import mean_squared_error
 
 # ----------------------------- Features -----------------------------
 BASE_FEATURES: list[str] = [
-    "DOM+","RDOM+","Speed","BMI","MTF/A","YPC","YPR","ELU","YCO/A",
+    "DOM+","RDOM+","PDOM+","Speed","BMI","MTF/A","YPC","YPR","ELU","YCO/A",
     "Break%","Draft Capital","Conference Rank","Draft Age","Breakout Age",
-    "Y/RR","YAC/R","aDOT","EPA/P","aYPTPA","CTPRR","UCTPRR","Drop Rate","CC%","Wide%","Slot%",
-    "Comp%","ADJ%","BTT%","TWP%","DAA","YPA"
+    "Y/RR","YAC/R","aDOT","EPA/P","aYPTPA","CTPRR","UCTPRR","ATT","Drop%","CC%","Wide%","Slot%",
+    "Comp%","ADJ%","BTT%","DAA","PYPA","RYPA","TWP%","MTF","FUM","10+","REC%",
+    "Y/REC","DRP%",
 ]
 
 INTERACTIONS: dict[str, tuple[str, str]] = {
@@ -27,40 +28,142 @@ INTERACTIONS: dict[str, tuple[str, str]] = {
 }
 
 ALIASES: dict[str, list[str]] = {
-    "DOM+":             ["DOM+","DOMp","DOM_plus","DOMp_Weighted","DOM"],
-    "RDOM+":             ["RDOM", "rdom", "Rdom", "RDom", "RDOM+"],
-    "Speed":            ["40 Time","Forty","40","Speed"],
-    "BMI":              ["BMI","Body Mass Index"],
-    "MTF/A":            ["Missed Tackles Forced Per Attempt","MTFA","MTF/A","Missed Tackles/Att"],
-    "YPC":              ["YPC","Yards per Carry","Yards/Carry","Rushing YPC"],
-    "YPR":              ["YPR","Yards Per Reception","Yards/Reception"],
-    "ELU":              ["ELU","Elusiveness","Elusiveness Rating"],
-    "YCO/A":            ["YCO/A","YAC/A","Yards After Contact / Att","Yards After Contact per Attempt"],
-    "Break%":           ["Break%","Break %","Breakaway %","Breakaway Percentage","Breakaway%"],
-    "Draft Capital":    ["Draft Capital","Draft Cap","Draft Round","Round","Rnd"],
-    "Conference Rank":  ["ConRK","Conference Rank","Conf Rk"],
-    "Shuttle":          ["Shuttle","Short Shuttle","20 Shuttle","20 Yard Shuttle"],
-    "Three Cone":       ["3 Cone","Three Cone","3-Cone"],
-    "Rec Yards":        ["Receiving Yards","Rec Yds","RecYds"],
-    "Draft Age":        ["Draft Age","Age at Draft","DraftAge","Age (Draft)","AgeDraft","Age_at_Draft"],
-    "Breakout Age":     ["Breakout","Breakout Age","Age of Breakout","BOUT"],
-    "Y/RR":             ["Yards Route Run","Yards per Route Run","Y/RR","YPRR"],
-    "YAC/R":            ["Yards After Catch Per Reception","YAC/R","YAC per Rec"],
-    "aDOT":             ["Average Depth of Target","aDOT","ADOT","adot"],
-    "EPA/P":            ["Expected Points Added per Play","EPA/P","EPA per Play"],
-    "aYPTPA":           ["Adjusted Yards per Team Pass Attempt","aYPTPA","AYPTA","aypta"],
-    "CTPRR":            ["Targets Per Route Run","CTPRR"],
-    "UCTPRR":           ["Uncontested Targets Per Route Run","UCTPRR"],
-    "Drop Rate":        ["Drop %","Drop%","DropRate","Drop Rate"],
-    "CC%":              ["Contested Catch Percent","CC","CC %","CC%"],
-    "Wide%":            ["X/Z%","X%","Z%","Wide","Wide %","Wide%"],
-    "Slot%":            ["Slot","Slot %","Slot%"],
-    "Comp%":            ["Completion Percentage","Comp","COMP","Comp%"],
-    "ADJ%":             ["Adjusted Completed Percentage","ADJ","ADJ%","ADJ %"],
-    "BTT%":             ["Big Time Throw Percentage","BTT","BTT %","BTT%"],
-    "TWP%":             ["Turnover Worthy Play Percentage","TWP","TWP %","TWP%"],
-    "DAA":              ["Depth-Adjusted Accuracy","Depth Adjusted Accuracy","DAA"],
-    "YPA":              ["Yards Per Attempt","YpA","YPA"]
+    # ===================== Core Adjusted Metrics =====================
+    "DOM+":             ["DOM+"],
+    "RDOM+":            ["RDOM+"],
+    "PDOM+":            ["PDOM+"],
+
+    # ===================== Athleticism =====================
+    "Speed":            ["40 Time", "Forty", "40", "Speed"],
+    "BMI":              ["BMI", "Body Mass Index"],
+
+    "Shuttle":          ["Shuttle", "Short Shuttle", "20 Shuttle", "20 Yard Shuttle"],
+    "Three Cone":       ["3 Cone", "Three Cone", "3-Cone"],
+
+    # ===================== Elusiveness / Contact =====================
+    "MTF/A": ["Missed Tackles Forced Per Attempt","MTFA","MTF/A","Missed Tackles/Att",
+        "missed_tackles_forced_per_attempt",
+    ],
+    "MTF": ["MTF","Missed Tackles Forced After Rush","Missed Tackles Forced After Reception",
+        "avoided_tackles","elu_rush_mtf",          # PFF (rush & rec): missed tackles forced"elu_recv_mtf","elu_rush_mtf",
+    ],
+    "ELU": ["ELU","Elusiveness","Elusiveness Rating","elusive_rating",           # PFF rushing header
+    ],
+    "YCO/A": ["YCO/A","YAC/A","Yards After Contact / Att","Yards After Contact per Attempt",
+        "yco_attempt",              # PFF rushing header
+    ],
+
+    # ===================== Efficiency =====================
+    "YPC": ["YPC","Yards per Carry","Yards/Carry","Rushing YPC",
+    ],
+    "YPR": ["YPR","Yards Per Reception","Yards/Reception",
+    ],
+    "Y/REC": ["Y/REC","Yards per Reception","yards_per_reception",      # PFF receiving header
+    ],
+
+    # ===================== Explosiveness =====================
+    "Break%": ["Break%","Break %","Breakaway %","Breakaway Percentage","Breakaway%",
+        "breakaway_percent",        # PFF rushing header
+    ],
+    "10+": ["10+","Explosive Runs","runs over 10 yards","explosive",                # PFF rushing header
+    ],
+
+    # ===================== Draft & Age =====================
+    "Draft Capital": ["Draft Capital","Draft Cap","Draft Round","Round",
+        "Rnd","Draft",
+    ],
+    "Draft Age": ["Draft Age","Age at Draft","DraftAge","Age (Draft)",
+        "AgeDraft","Age_at_Draft",
+    ],
+    "Breakout Age": ["Breakout","Breakout Age","Age of Breakout","BOUT",
+    ],
+
+    # ===================== Positional Usage =====================
+    "Wide%": ["X/Z%","X%","Z%","Wide","Wide %","Wide%","wide_rate",                # PFF receiving header
+    ],
+    "Slot%": ["Slot","Slot %","Slot%", "slot_rate",                # PFF receiving header
+    ],
+
+    # ===================== Receiving / Route Metrics =====================
+    "Y/RR": ["Yards Route Run","Yards per Route Run","Y/RR","YPRR",
+        "yprr",                     # PFF rec & rush header
+    ],
+    "YAC/R": ["Yards After Catch Per Reception","YAC/R","YAC per Rec","YAC/REC",
+        "yards_after_catch_per_reception",  # PFF receiving header
+    ],
+    "REC%": ["REC%","Percetnage of targets caught","caught_percent",           # PFF receiving header
+    ],
+
+    # ===================== Passing Depth & Accuracy =====================
+    "aDOT": ["Average Depth of Target","aDOT","ADOT","adot",
+        "aDoT","avg_depth_of_target",      # PFF passing & receiving header
+    ],
+    "EPA/P": ["Expected Points Added per Play","EPA/P",
+        "EPA per Play",
+    ],
+    "aYPTPA": ["Adjusted Yards per Team Pass Attempt","aYPTPA",
+        "AYPTA","aypta",
+    ],
+    "CTPRR": ["Targets Per Route Run","CTPRR",
+    ],
+    "UCTPRR": ["Uncontested Targets Per Route Run","UCTPRR",
+    ],
+    "Drop%": ["Drop %","Drop%","DropRate",
+        "Drop Rate","DRP%","drop_rate",                # PFF passing & receiving header
+    ],
+    "CC%": ["Contested Catch Percent","CC","CC %","CC%",
+        "CTC","contested_catch_rate",     # PFF receiving header
+    ],
+
+    "Comp%": ["Completion Percentage","Comp","COMP","Comp%",
+        "Cmp%","completion_percent",       # PFF passing header
+    ],
+    "ADJ%": ["Adjusted Completed Percentage", "ADJ", "ADJ%",
+        "ADJ %","accuracy_percent",         # PFF passing header (best-fit)
+    ],
+    "BTT%": ["Big Time Throw Percentage","BTT","BTT %",
+        "BTT%","btt_rate",                 # PFF passing header
+    ],
+    "TWP%": ["TWP%","Turnover Worthy Play Percentage","Turnover Worthy Play Rate","TWP",
+        "TWP %","twp_rate","turnover_worthy_plays",    # PFF passing header (count)
+    ],
+    "DAA": ["Depth-Adjusted Accuracy","Depth Adjusted Accuracy","DAA",
+    ],
+    "ATT": ["avg_time_to_throw", "ATT"],
+
+    # ===================== Yards Per Attempt =====================
+    "PYPA": [
+        "Passing Yards Per Attempt",
+        "PYpA",
+        "PYPA",
+    ],
+    "RYPA": [
+        "Rushing Yards Per Attempt",
+        "RYpA",
+        "RYPA",
+    ],
+
+    # ===================== Ball Security =====================
+    "FUM": [
+        "FUM",
+        "Fumbles",
+        "fumbles",                  # PFF receiving & rushing header
+    ],
+
+    # ===================== Conference Context =====================
+    "Conference Rank":  [
+        "ConRK",
+        "Conference Rank",
+        "Conf Rk",
+    ],
+
+    # ===================== Receiving Volume =====================
+    "Rec Yards": [
+        "Receiving Yards",
+        "Rec Yds",
+        "RecYds",
+        "rec_yards",                # PFF rushing header
+    ],
 }
 
 
@@ -70,7 +173,7 @@ ALIASES: dict[str, list[str]] = {
 
 def default_out_dir(project_root: Path, pos: str) -> Path:
     """Return the default output directory for a given position."""
-    return project_root / "data" / "Bakery" / "_derived" / pos.upper()
+    return project_root / "data" / "Training" / "_derived" / pos.upper()
 
 
 pd.set_option("display.max_columns", None)
@@ -230,7 +333,7 @@ def log(message: str, level: str = "info", verbose: bool = True, stream=sys.stdo
 def invert_cols(X: pd.DataFrame) -> pd.DataFrame:   # Replace invert_lower_better with invert_cols in older scripts
     """Invert columns where lower values are better (e.g., times, draft round, age) so higher is always better."""
     X = X.copy()
-    for c in ["40 Time","Speed","Draft Capital","Shuttle","Three Cone","Draft Age"]:
+    for c in ["40 Time","Speed","Draft Capital","Shuttle","Three Cone","Draft Age","FUM"]:
         if c in X.columns:
             X[c] = -X[c]
     return X

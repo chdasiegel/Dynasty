@@ -1,9 +1,0 @@
-feature,tree_feature_importance,kind
-MTF/A,0.10218187908116097,base
-Draft Capital,0.1,base
-DOM+,0.08806951014150104,base
-RDOM+,0.06835451033885186,base
-YCO/A,0.06350587006312315,base
-Breakout Age,0.05606885284717704,base
-YPC,0.02561537233839184,base
-SpeedxBMI,0.010312650967592658,interaction

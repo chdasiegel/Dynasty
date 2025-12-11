@@ -1,0 +1,9 @@
+feature,tree_feature_importance,kind
+Draft Capital,0.1,base
+MTF,0.08727440188227292,base
+RDOM+,0.0750333820047683,base
+DOM+,0.07251664837789376,base
+Breakout Age,0.06520754498540346,base
+ELU,0.052212294239090296,base
+SpeedxBMI,0.0357931928560975,interaction
+FUM,0.016098952173369947,base

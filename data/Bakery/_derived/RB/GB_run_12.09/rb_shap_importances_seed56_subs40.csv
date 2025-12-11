@@ -1,0 +1,9 @@
+feature,shap_mean_abs,kind
+ELU,10.274950630497688,base
+RDOM+,7.5735465391707795,base
+FUM,7.101541732412711,base
+DOM+,6.458109192966603,base
+Break%,3.1375571661859585,base
+SpeedxBMI,2.4748311916994394,interaction
+Draft Capital,0.1,base
+Breakout Age,0.1,base

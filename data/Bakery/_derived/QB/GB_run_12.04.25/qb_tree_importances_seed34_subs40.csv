@@ -1,0 +1,6 @@
+feature,tree_feature_importance,kind
+Draft Capital,0.3,base
+RDOM+,0.1296262817892932,base
+PDOM+,0.07861286882831328,base
+SpeedxBMI,0.046793315064609854,interaction
+DOM+,0.03625642200708335,base

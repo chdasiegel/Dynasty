@@ -1,0 +1,134 @@
+{
+  "position": "RB",
+  "seed": 56,
+  "n_subsets": 20,
+  "max_base_feats": 15,
+  "n_iter_per_model": 15,
+  "best_model_tag": "GB",
+  "best_hyperparams": {
+    "subsample": 1.0,
+    "n_estimators": 200,
+    "min_samples_leaf": 3,
+    "max_depth": 6,
+    "learning_rate": 0.05
+  },
+  "performance": {
+    "test_r2": 0.5930986723845642,
+    "test_mae": 34.28039169018775,
+    "test_rmse": 46.52552886331067,
+    "cv_r2_mean": 0.44256644479776935,
+    "max_prediction_raw": -15.817187211966052,
+    "min_prediction_raw": -267.68354059345006
+  },
+  "features": {
+    "n_features": 8,
+    "feature_names": [
+      "DOM+",
+      "RDOM+",
+      "Draft Capital",
+      "ELU",
+      "FUM",
+      "Breakout Age",
+      "MTF",
+      "SpeedxBMI"
+    ],
+    "feature_kinds": {
+      "DOM+": "base",
+      "RDOM+": "base",
+      "Draft Capital": "base",
+      "ELU": "base",
+      "FUM": "base",
+      "Breakout Age": "base",
+      "MTF": "base",
+      "SpeedxBMI": "interaction"
+    },
+    "best_bases": [
+      "DOM+",
+      "RDOM+",
+      "Draft Capital",
+      "ELU",
+      "FUM",
+      "Breakout Age",
+      "MTF"
+    ],
+    "best_interactions": [
+      "SpeedxBMI"
+    ]
+  },
+  "shap_analysis": {
+    "feature_importances": {
+      "DOM+": 6.917564677323015,
+      "RDOM+": 6.120074308921646,
+      "Draft Capital": 52.30611153339312,
+      "ELU": 5.749093895837851,
+      "FUM": 3.25548936575421,
+      "Breakout Age": 8.92528174809957,
+      "MTF": 11.376583069072263,
+      "SpeedxBMI": 3.658534925876582
+    },
+    "base_features_importance": {
+      "DOM+": 6.917564677323015,
+      "RDOM+": 6.120074308921646,
+      "Draft Capital": 52.30611153339312,
+      "ELU": 5.749093895837851,
+      "FUM": 3.25548936575421,
+      "Breakout Age": 8.92528174809957,
+      "MTF": 11.376583069072263
+    },
+    "interaction_features_importance": {
+      "SpeedxBMI": 3.658534925876582
+    },
+    "top_5_features": [
+      [
+        "Draft Capital",
+        52.30611153339312
+      ],
+      [
+        "MTF",
+        11.376583069072263
+      ],
+      [
+        "Breakout Age",
+        8.92528174809957
+      ],
+      [
+        "DOM+",
+        6.917564677323015
+      ],
+      [
+        "RDOM+",
+        6.120074308921646
+      ]
+    ],
+    "base_importance_sum": 94.65019859840167,
+    "interaction_importance_sum": 3.658534925876582,
+    "shap_base_value": -135.01775147928996
+  },
+  "data_info": {
+    "train_samples": 169,
+    "test_samples": 43,
+    "cv_folds_used": 15,
+    "total_samples": 212
+  },
+  "training_config": {
+    "max_base_feats": 15,
+    "max_interactions": 3,
+    "n_iter_per_model": 15,
+    "test_size": 0.2,
+    "interaction_hierarchy": "none",
+    "draft_cap_cap": 0.3,
+    "shap_enabled": true
+  },
+  "file_paths": {
+    "model_pickle": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_model_seed56_subs20_base15_iter15.pkl",
+    "predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_wide_best_preds_seed56_subs20_base15_iter15.csv",
+    "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_wide_leaderboard_seed56_subs20_base15_iter15.csv",
+    "shap_contribs_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_shap_contribs_seed56_subs20_base15_iter15.csv",
+    "tree_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_tree_importances_seed56_subs20.csv",
+    "tree_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_tree_importances_split_seed56_subs20.csv",
+    "shap_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_shap_importances_seed56_subs20.csv",
+    "shap_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/RB/rb_shap_importances_split_seed56_subs20.csv"
+  },
+  "timestamp": "2025-12-10T00:24:45.711970",
+  "runtime_sec": 119.86611708346754
+}

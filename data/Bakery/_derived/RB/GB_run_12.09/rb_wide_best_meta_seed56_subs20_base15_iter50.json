@@ -1,0 +1,134 @@
+{
+  "position": "RB",
+  "seed": 56,
+  "n_subsets": 20,
+  "max_base_feats": 15,
+  "n_iter_per_model": 50,
+  "best_model_tag": "GB",
+  "best_hyperparams": {
+    "subsample": 0.8,
+    "n_estimators": 200,
+    "min_samples_leaf": 5,
+    "max_depth": 2,
+    "learning_rate": 0.1
+  },
+  "performance": {
+    "test_r2": 0.5672601040053524,
+    "test_mae": 38.294414259572264,
+    "test_rmse": 47.979998856874914,
+    "cv_r2_mean": 0.415106591734263,
+    "max_prediction_raw": 5.925730709187414,
+    "min_prediction_raw": -249.73658818664865
+  },
+  "features": {
+    "n_features": 8,
+    "feature_names": [
+      "DOM+",
+      "RDOM+",
+      "Draft Capital",
+      "ELU",
+      "Breakout Age",
+      "FUM",
+      "10+",
+      "SpeedxBMI"
+    ],
+    "feature_kinds": {
+      "DOM+": "base",
+      "RDOM+": "base",
+      "Draft Capital": "base",
+      "ELU": "base",
+      "Breakout Age": "base",
+      "FUM": "base",
+      "10+": "base",
+      "SpeedxBMI": "interaction"
+    },
+    "best_bases": [
+      "DOM+",
+      "RDOM+",
+      "Draft Capital",
+      "ELU",
+      "Breakout Age",
+      "FUM",
+      "10+"
+    ],
+    "best_interactions": [
+      "SpeedxBMI"
+    ]
+  },
+  "shap_analysis": {
+    "feature_importances": {
+      "DOM+": 7.73990600355921,
+      "RDOM+": 6.643903004358137,
+      "Draft Capital": 50.07608467736017,
+      "ELU": 12.47153896359561,
+      "Breakout Age": 10.878927722175124,
+      "FUM": 6.984454240998819,
+      "10+": 4.527709502437516,
+      "SpeedxBMI": 6.53380995590257
+    },
+    "base_features_importance": {
+      "DOM+": 7.73990600355921,
+      "RDOM+": 6.643903004358137,
+      "Draft Capital": 50.07608467736017,
+      "ELU": 12.47153896359561,
+      "Breakout Age": 10.878927722175124,
+      "FUM": 6.984454240998819,
+      "10+": 4.527709502437516
+    },
+    "interaction_features_importance": {
+      "SpeedxBMI": 6.53380995590257
+    },
+    "top_5_features": [
+      [
+        "Draft Capital",
+        50.07608467736017
+      ],
+      [
+        "ELU",
+        12.47153896359561
+      ],
+      [
+        "Breakout Age",
+        10.878927722175124
+      ],
+      [
+        "DOM+",
+        7.73990600355921
+      ],
+      [
+        "FUM",
+        6.984454240998819
+      ]
+    ],
+    "base_importance_sum": 99.32252411448458,
+    "interaction_importance_sum": 6.53380995590257,
+    "shap_base_value": -135.72359772557485
+  },
+  "data_info": {
+    "train_samples": 169,
+    "test_samples": 43,
+    "cv_folds_used": 15,
+    "total_samples": 212
+  },
+  "training_config": {
+    "max_base_feats": 15,
+    "max_interactions": 3,
+    "n_iter_per_model": 50,
+    "test_size": 0.2,
+    "interaction_hierarchy": "none",
+    "draft_cap_cap": 0.3,
+    "shap_enabled": true
+  },
+  "file_paths": {
+    "model_pickle": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_model_seed56_subs20_base15_iter50.pkl",
+    "predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_wide_best_preds_seed56_subs20_base15_iter50.csv",
+    "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_wide_leaderboard_seed56_subs20_base15_iter50.csv",
+    "shap_contribs_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_shap_contribs_seed56_subs20_base15_iter50.csv",
+    "tree_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_tree_importances_seed56_subs20.csv",
+    "tree_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_tree_importances_split_seed56_subs20.csv",
+    "shap_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_shap_importances_seed56_subs20.csv",
+    "shap_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Bakery/_derived/RB/rb_shap_importances_split_seed56_subs20.csv"
+  },
+  "timestamp": "2025-12-09T11:47:58.175939",
+  "runtime_sec": 396.4605748327449
+}

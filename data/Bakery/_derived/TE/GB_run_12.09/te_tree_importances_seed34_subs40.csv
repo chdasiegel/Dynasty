@@ -1,0 +1,6 @@
+feature,tree_feature_importance,kind
+Y/RR,0.3389254758656688,base
+SpeedxBMI,0.1089783403852112,interaction
+Draft Capital,0.1,base
+DOM+,0.0965645384910211,base
+Wide%xSlot%,0.039127462349198824,interaction

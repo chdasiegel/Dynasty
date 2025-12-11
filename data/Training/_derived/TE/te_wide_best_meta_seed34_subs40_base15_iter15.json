@@ -1,0 +1,139 @@
+{
+  "position": "TE",
+  "seed": 34,
+  "n_subsets": 40,
+  "max_base_feats": 15,
+  "n_iter_per_model": 15,
+  "best_model_tag": "GB",
+  "best_hyperparams": {
+    "subsample": 0.9,
+    "n_estimators": 800,
+    "min_samples_leaf": 3,
+    "max_depth": 5,
+    "learning_rate": 0.1
+  },
+  "performance": {
+    "test_r2": 0.6365753635550779,
+    "test_mae": 27.97978948419548,
+    "test_rmse": 35.61003441740423,
+    "cv_r2_mean": 0.5802411323819913,
+    "max_prediction_raw": -7.154525651678048,
+    "min_prediction_raw": -182.6206448487895
+  },
+  "features": {
+    "n_features": 9,
+    "feature_names": [
+      "DOM+",
+      "Draft Capital",
+      "Y/REC",
+      "CC%",
+      "FUM",
+      "YAC/R",
+      "REC%",
+      "Y/RR",
+      "SpeedxBMI"
+    ],
+    "feature_kinds": {
+      "DOM+": "base",
+      "Draft Capital": "base",
+      "Y/REC": "base",
+      "CC%": "base",
+      "FUM": "base",
+      "YAC/R": "base",
+      "REC%": "base",
+      "Y/RR": "base",
+      "SpeedxBMI": "interaction"
+    },
+    "best_bases": [
+      "DOM+",
+      "Draft Capital",
+      "Y/REC",
+      "CC%",
+      "FUM",
+      "YAC/R",
+      "REC%",
+      "Y/RR"
+    ],
+    "best_interactions": [
+      "SpeedxBMI"
+    ]
+  },
+  "shap_analysis": {
+    "feature_importances": {
+      "DOM+": 5.244245074771783,
+      "Draft Capital": 26.39186194563273,
+      "Y/REC": 5.170694045202548,
+      "CC%": 3.4087327111541734,
+      "FUM": 0.40379113768280717,
+      "YAC/R": 3.7194921184030623,
+      "REC%": 2.2584349055073165,
+      "Y/RR": 16.8001165166591,
+      "SpeedxBMI": 4.811090354843971
+    },
+    "base_features_importance": {
+      "DOM+": 5.244245074771783,
+      "Draft Capital": 26.39186194563273,
+      "Y/REC": 5.170694045202548,
+      "CC%": 3.4087327111541734,
+      "FUM": 0.40379113768280717,
+      "YAC/R": 3.7194921184030623,
+      "REC%": 2.2584349055073165,
+      "Y/RR": 16.8001165166591
+    },
+    "interaction_features_importance": {
+      "SpeedxBMI": 4.811090354843971
+    },
+    "top_5_features": [
+      [
+        "Draft Capital",
+        26.39186194563273
+      ],
+      [
+        "Y/RR",
+        16.8001165166591
+      ],
+      [
+        "DOM+",
+        5.244245074771783
+      ],
+      [
+        "Y/REC",
+        5.170694045202548
+      ],
+      [
+        "SpeedxBMI",
+        4.811090354843971
+      ]
+    ],
+    "base_importance_sum": 63.39736845501352,
+    "interaction_importance_sum": 4.811090354843971,
+    "shap_base_value": -90.46952012014543
+  },
+  "data_info": {
+    "train_samples": 115,
+    "test_samples": 29,
+    "cv_folds_used": 15,
+    "total_samples": 144
+  },
+  "training_config": {
+    "max_base_feats": 15,
+    "max_interactions": 3,
+    "n_iter_per_model": 15,
+    "test_size": 0.2,
+    "interaction_hierarchy": "none",
+    "draft_cap_cap": 0.1,
+    "shap_enabled": true
+  },
+  "file_paths": {
+    "model_pickle": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_model_seed34_subs40_base15_iter15.pkl",
+    "predictions_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_wide_best_preds_seed34_subs40_base15_iter15.csv",
+    "leaderboard_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_wide_leaderboard_seed34_subs40_base15_iter15.csv",
+    "shap_contribs_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_shap_contribs_seed34_subs40_base15_iter15.csv",
+    "tree_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_tree_importances_seed34_subs40.csv",
+    "tree_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_tree_importances_split_seed34_subs40.csv",
+    "shap_importances_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_shap_importances_seed34_subs40.csv",
+    "shap_importances_split_csv": "/Users/chasesiegel/Desktop/Comp_Sci/Capstone/Dynasty/data/Training/_derived/TE/te_shap_importances_split_seed34_subs40.csv"
+  },
+  "timestamp": "2025-12-11T14:15:15.227674",
+  "runtime_sec": 176.05668774992228
+}
