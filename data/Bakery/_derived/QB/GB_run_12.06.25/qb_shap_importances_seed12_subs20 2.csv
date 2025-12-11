@@ -1,0 +1,7 @@
+feature,shap_mean_abs,kind
+RDOM+,5.618834104798437,base
+ELU,4.50878445722914,base
+SpeedxBMI,2.6730259414439335,interaction
+PDOM+,1.7085657258436282,base
+Breakout Age,0.15,base
+Draft Capital,0.1,base

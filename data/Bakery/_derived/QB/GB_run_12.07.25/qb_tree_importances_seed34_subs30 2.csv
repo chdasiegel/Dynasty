@@ -1,0 +1,12 @@
+feature,tree_feature_importance,kind
+Comp%,0.11324151702005525,base
+Draft Capital,0.1,base
+RDOM+,0.07230454506823311,base
+BTT%,0.06210679526238839,base
+Breakout Age,0.05702671660477994,base
+PDOM+,0.016531547882764192,base
+TWP%,0.015318430678770098,base
+SpeedxBMI,0.009844824642114017,interaction
+YAC/R,0.0023845072085464324,base
+CC%,0.0,base
+REC%,0.0,base
