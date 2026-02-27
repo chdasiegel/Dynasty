@@ -1,3 +1,6 @@
+**to run:**
+https://huggingface.co/spaces/chdasiegel/mycapstone
+
 ---
 title: Mycapstone
 emoji: 👁
